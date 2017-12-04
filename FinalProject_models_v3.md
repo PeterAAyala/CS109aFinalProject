@@ -1,5 +1,5 @@
 ---
-title: Creating the HUGE dataframe
+title: Creating the YUGE dataframe
 notebook: FinalProject_models_v3.ipynb
 nav_include: 2
 ---
