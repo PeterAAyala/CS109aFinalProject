@@ -1,3 +1,13 @@
+---
+title: train test split
+notebook: FinalProject_vIk.ipynb
+nav_include: 1
+---
+
+## Contents
+{:.no_toc}
+*  
+{: toc}
 
 ## Part 0: Data Processing and EDA
 
@@ -43,7 +53,6 @@ with open('dataset/user.json') as f:
 
 
 ```python
-# preprocessed file with reviews only for restaurants
 with open('dataset/restaurant_reviews_trimmed.json') as f:
     review_data = [json.loads(line) for line in f]
 ```
@@ -52,7 +61,6 @@ with open('dataset/restaurant_reviews_trimmed.json') as f:
 
 
 ```python
-# convert array to list
 restaurant_reviews = review_data[0]
 ```
 
@@ -60,7 +68,6 @@ restaurant_reviews = review_data[0]
 
 
 ```python
-# pull just restaurant data from business data
 restaurant_data = [x for x in business_data if 'Restaurants' in x['categories']]
 ```
 
@@ -927,7 +934,6 @@ print (global_review_average)
 
 
 ```python
-# for easy lookup based on user id
 user_dict = {}
 for item in user_data:
     user_id = item['user_id']
@@ -1020,7 +1026,6 @@ del evaluation_df
 
 
 ```python
-# take 100000 reviews as sample
 data_array = (np.random.choice(restaurant_reviews, size = 100000))
 data_set = list(data_array)
 ```
@@ -1029,7 +1034,6 @@ data_set = list(data_array)
 
 
 ```python
-# find all categories for one-hot encoding purposes
 from collections import Counter
 all_categories = []
 for r in restaurant_data:
@@ -1042,7 +1046,6 @@ for r in restaurant_data:
 
 
 ```python
-# take 150 most popular categories
 counts = list (Counter(all_categories).items())
 counts.sort(key=lambda x: x[1], reverse = True)
 most_popular = [x[0] for x in counts[:150]]
@@ -1060,7 +1063,6 @@ expanded_reviews = copy.deepcopy(data_array)
 
 
 ```python
-# add business and user info
 for review in expanded_reviews:
     #print (review)
     restaurant = review['business_id']
@@ -1099,7 +1101,6 @@ for review in expanded_reviews:
 
 
 ```python
-# create pandas dataframe
 flatframe = json_normalize(expanded_reviews)
 flatframe = flatframe.drop(['text','useful','funny','cool','date'], axis=1)
 ```
@@ -1108,7 +1109,6 @@ flatframe = flatframe.drop(['text','useful','funny','cool','date'], axis=1)
 
 
 ```python
-# change user since
 flatframe['U_years_yelping'] = [2015 - int(x) for x in flatframe['U_yelping_since']]
 flatframe.drop(['U_yelping_since'],axis = 1, inplace = True)
 ```
@@ -1117,7 +1117,6 @@ flatframe.drop(['U_yelping_since'],axis = 1, inplace = True)
 
 
 ```python
-# drop ids
 flatframe = flatframe.drop(['business_id', 'review_id', 'user_id'], axis = 1)
 ```
 
@@ -1133,7 +1132,6 @@ flatframe = pd.get_dummies(flatframe, columns = ['R_state'])
 
 
 ```python
-# train test split
 msk = np.random.rand(len(flatframe)) < 0.5
 data_train = flatframe[msk]
 data_test = flatframe[~msk]

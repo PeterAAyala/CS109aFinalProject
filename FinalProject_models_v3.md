@@ -1,3 +1,13 @@
+---
+title: Creating the HUGE dataframe
+notebook: FinalProject_models_v3.ipynb
+nav_include: 2
+---
+
+## Contents
+{:.no_toc}
+*  
+{: toc}
 
 ### Importing Data
 
@@ -9205,7 +9215,6 @@ def baseline2(user_id, business_id):
 ```
 
 
-# Creating the HUGE dataframe
 
 
 
