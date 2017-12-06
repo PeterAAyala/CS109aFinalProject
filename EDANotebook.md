@@ -1,5 +1,5 @@
 ---
-title: convert array to list
+title: EDA
 notebook: EDANotebook.ipynb
 nav_include: 1
 ---
