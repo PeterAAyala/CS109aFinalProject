@@ -1,7 +1,6 @@
 ---
 title: EDA 
 notebook: FinalProject_vIk.ipynb
-nav_include: 1
 ---
 
 ## Contents
