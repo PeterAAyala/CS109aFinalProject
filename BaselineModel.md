@@ -9,36 +9,12 @@ nav_include: 2
 *  
 {: toc}
 
-## Part 0: Data Processing and EDA
-
-## High level overview 
-
-
-This project was interested in building various regression models to predict a restaurant's rating given it's features and a particular user's features. We first built a baseline model that took in global averages to make predictions, followed by regularized Ridge and Lasso regressions, a matrix factorizaiton approach, a KNN approach, and lastly an ensemble method that brought it all together. Overall it seems that fitted models performed marginally better than the baseline model, as you will see throughout the notebook code and explanations.
-
-
-### Importing Data
 
 
 
 
 
 
-
-```python
-with open('dataset/business.json') as f:
-    business_data = [json.loads(line) for line in f]
-with open('dataset/user.json') as f:
-    user_data = [json.loads(line) for line in f]  
-with open('dataset/restaurant_reviews_trimmed.json') as f:
-    review_data = [json.loads(line) for line in f]
-
-restaurant_data = [x for x in business_data if 'Restaurants' in x['categories']]
-
-restaurant_reviews = review_data[0] 
-
-restaurant_df = json_normalize(restaurant_data)
-```
 
 
 ## Part 1: Create a Baseline
@@ -341,7 +317,7 @@ ax.set_ylim((1,5));
 
 
 
-![png](BaselineModel_files/BaselineModel_42_0.png)
+![png](BaselineModel_files/BaselineModel_38_0.png)
 
 
 
@@ -358,7 +334,7 @@ ax.set_ylim((1,5));
 
 
 
-![png](BaselineModel_files/BaselineModel_43_0.png)
+![png](BaselineModel_files/BaselineModel_39_0.png)
 
 
 On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings.
