@@ -115,7 +115,6 @@ ridge_ypred_test_round = [int(round(x)) for x in ridge_ypred_test]
 
 
 ```python
-
 print ("The accuracy score of the ridge model on the train set is {}"
        .format(metrics.accuracy_score(ytrain, ridge_ypred_round)))
 print ("The accuracy score of the ridge model on the test set is {}"
@@ -156,14 +155,6 @@ ax.set_ylim((1,5))
 ```
 
 
-
-
-
-    (1, 5)
-
-
-
-
 ![png](RegularizedRegression_files/RegularizedRegression_48_1.png)
 
 
@@ -180,15 +171,7 @@ ax.set_ylim((1,5))
 ```
 
 
-
-
-
-    (1, 5)
-
-
-
-
 ![png](RegularizedRegression_files/RegularizedRegression_49_1.png)
 
 
-On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings and underestimate for higher ratings.
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings and underestimate for higher ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values near 3.5, which is where a lot of the global averages are centered. 
