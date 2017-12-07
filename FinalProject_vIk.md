@@ -1,6 +1,7 @@
 ---
-title: EDA 
+title: calculate averages
 notebook: FinalProject_vIk.ipynb
+nav_include: 4
 ---
 
 ## Contents
@@ -23,16 +24,15 @@ import matplotlib
 import matplotlib.pyplot as plt
 import sklearn.metrics as metrics
 from sklearn.model_selection import cross_val_score
-from sklearn import tree
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegressionCV
+from sklearn.linear_model import RidgeCV
+from sklearn.linear_model import LassoCV
 from random import *
 from math import log
-from pandas.io.json import json_normalize
 import copy
 pd.set_option('display.max_columns', None)
+from pandas.io.json import json_normalize
 
 from scipy.stats.stats import pearsonr   
 %matplotlib inline
@@ -52,7 +52,7 @@ with open('dataset/user.json') as f:
 
 
 ```python
-with open('dataset/restaurant_reviews_trimmed.json') as f:
+with open('dataset/restaurant_reviews.json', encoding = 'utf-8') as f:
     review_data = [json.loads(line) for line in f]
 ```
 
@@ -107,7 +107,7 @@ ax.set_title('Average Star Rating by State')
 
 
 
-    <matplotlib.text.Text at 0x110f4a668>
+    <matplotlib.text.Text at 0x2047eb0abe0>
 
 
 
@@ -130,34 +130,12 @@ ax.set(xticklabels = [(x+1)*5 for x in range(21)]);
 ```
 
 
-    /Users/PeterAyala/anaconda/lib/python3.6/site-packages/ipykernel_launcher.py:4: DeprecationWarning: object of type <class 'float'> cannot be safely interpreted as an integer.
-      after removing the cwd from sys.path.
+    C:\Users\ikhoon\Anaconda3\lib\site-packages\ipykernel_launcher.py:5: DeprecationWarning: object of type <class 'float'> cannot be safely interpreted as an integer.
+      """
 
 
 
 ![png](FinalProject_vIk_files/FinalProject_vIk_11_1.png)
-
-
-
-
-```python
-ambience_headers=restaurant_df.columns[4:13].values
-ambience_dict = {}
-
-for item in ambience_headers:
-    trimmed_name = item[20:]
-    ambience_dict[trimmed_name] = restaurant_df.loc[restaurant_df[item] == True, 'stars'].mean()
-
-pairs = zip(list(ambience_dict.keys()), list(ambience_dict.values()))
-pairs = sorted(pairs, key=lambda x: x[1], reverse=True)
-ambiences, means = zip(*pairs)
-fig, ax = plt.subplots(figsize=(14,10))
-ax=sns.barplot(x=ambiences, y=means, palette='Blues_d')
-```
-
-
-
-![png](FinalProject_vIk_files/FinalProject_vIk_12_0.png)
 
 
 
@@ -179,7 +157,7 @@ ax=sns.barplot(x=dietaryrestrictions, y=means, palette='Blues_d')
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_13_0.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_12_0.png)
 
 
 
@@ -270,19 +248,18 @@ sns.barplot(d.index, d['AVG_RATING'], ax = ax)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1111bbac8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x2047ab97518>
 
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_16_1.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_15_1.png)
 
 
 
 
 ```python
-restaurant_df_v2 = restaurant_df
-d = create_pivot_restaurant(restaurant_df_v2, 'attributes.RestaurantsAttire')
+d = create_pivot_restaurant(restaurant_df, 'attributes.RestaurantsAttire')
 d
 ```
 
@@ -355,18 +332,18 @@ sns.barplot(d.index, d['AVG_RATING'], ax = ax)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1117845c0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x2047ee81898>
 
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_18_1.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_17_1.png)
 
 
 
 
 ```python
-r = create_pivot_restaurant(restaurant_df_v2, 'attributes.RestaurantsPriceRange2')
+r = create_pivot_restaurant(restaurant_df, 'attributes.RestaurantsPriceRange2')
 r
 ```
 
@@ -443,7 +420,7 @@ sns.barplot(r.index, r['AVG_RATING'], ax = ax);
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_20_0.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_19_0.png)
 
 
 
@@ -563,7 +540,7 @@ ax.set_title('Average Restaurant Rating based on Ambience');
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_23_0.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_22_0.png)
 
 
 
@@ -572,7 +549,7 @@ ax.set_title('Average Restaurant Rating based on Ambience');
 parking_ratings = {}
 for a in ['attributes.BusinessParking.garage', 'attributes.BusinessParking.lot', 'attributes.BusinessParking.street',
           'attributes.BusinessParking.valet', 'attributes.BusinessParking.validated']:
-    parking_ratings[a] =  create_pivot_restaurant(restaurant_df_v2, a).iloc[1]
+    parking_ratings[a] =  create_pivot_restaurant(restaurant_df, a).iloc[1]
 parking_df = pd.DataFrame.from_dict(parking_ratings, orient = 'index')
 parking_df
 ```
@@ -651,7 +628,7 @@ sns.barplot(index, parking_df['AVG_RATING'], ax = ax);
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_25_0.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_24_0.png)
 
 
 
@@ -724,12 +701,12 @@ sns.barplot(drivethru.index, drivethru['AVG_RATING'])
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1119e48d0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x2047f261908>
 
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_27_1.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_26_1.png)
 
 
 
@@ -889,136 +866,15 @@ sns.barplot(good_for_meals_df.index, good_for_meals_df['AVG_RATING'])
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x111a4c828>
+    <matplotlib.axes._subplots.AxesSubplot at 0x2047f2d4550>
 
 
 
 
-![png](FinalProject_vIk_files/FinalProject_vIk_30_1.png)
+![png](FinalProject_vIk_files/FinalProject_vIk_29_1.png)
 
 
 ## Part 1: Create a Baseline
-
-### Getting global averages
-
-
-
-```python
-user_total = [x['average_stars'] for x in user_data]
-global_user_average = sum(user_total)/len(user_total)
-print (global_user_average)
-```
-
-
-
-
-```python
-restaurant_total = [x['stars'] for x in restaurant_data]
-global_restaurant_average = sum(restaurant_total)/len(restaurant_total)
-print (global_restaurant_average)
-```
-
-
-
-
-```python
-reviews_total = [x['stars'] for x in restaurant_reviews]
-global_review_average = sum(reviews_total)/len(reviews_total)
-print (global_review_average)
-```
-
-
-### Getting restaurant and user biases
-
-
-
-```python
-user_dict = {}
-for item in user_data:
-    user_id = item['user_id']
-    user_dict[user_id] = item
-```
-
-
-
-
-```python
-user_deviations = {}
-for item in user_data:
-    user_id = item['user_id']
-    user_deviations[user_id] = item['average_stars'] - global_user_average
-    
-```
-
-
-
-
-```python
-restaurant_deviations = {}
-for item in restaurant_data:
-    rest_id = item['business_id']
-    restaurant_deviations[rest_id] = item['stars'] - global_restaurant_average
-```
-
-
-### Rating the Model
-
-
-
-```python
-#getting a random evaluation set of 20000
-evaluation_set = np.random.choice(restaurant_reviews, size = 20000)
-
-```
-
-
-
-
-```python
-evaluation_df = pd.DataFrame(list(evaluation_set))
-```
-
-
-
-
-```python
-evaluation_df = evaluation_df.drop(['cool', 'date', 'funny','text','useful'], axis = 1)
-
-```
-
-
-
-
-```python
-def baseline(user_id, business_id):
-    pred = global_review_average + user_deviations[user_id] + restaurant_deviations[business_id]
-    return pred
-```
-
-
-
-
-```python
-evaluation_df['baseline_pred'] = [baseline(x,y) for (x,y) in zip(evaluation_df['user_id'],evaluation_df['business_id'])]
-```
-
-
-
-
-```python
-score = metrics.mean_squared_error(evaluation_df['stars'], evaluation_df['baseline_pred'])
-print (score)
-```
-
-
-
-
-```python
-del evaluation_df
-```
-
-
-## Part 2: Create a Regularized Regression
 
 ### Creating training, validating, and testing sets
 
@@ -1029,6 +885,8 @@ data_array = (np.random.choice(restaurant_reviews, size = 100000))
 data_set = list(data_array)
 ```
 
+
+As the dataset is so large, we had to take a subset of it to work with because of technical limitations of our computers.
 
 
 
@@ -1042,13 +900,31 @@ for r in restaurant_data:
 ```
 
 
+In the original dataset, "categories" is given as a list in each cell. We found all the unique categories here (e.g. French, Burgers, etc.).
+
 
 
 ```python
 counts = list (Counter(all_categories).items())
 counts.sort(key=lambda x: x[1], reverse = True)
 most_popular = [x[0] for x in counts[:150]]
+```
 
+
+Many of the categories were either inappropriate (e.g. laundry) or too rare to be useful. Here, we narrowed down the categories to the top 150.
+
+
+
+```python
+restaurant_dict = {}
+for item in restaurant_data:
+    restaurant_id = item['business_id']
+    restaurant_dict[restaurant_id] = item
+
+user_dict = {}
+for item in user_data:
+    user_id = item['user_id']
+    user_dict[user_id] = item
 ```
 
 
@@ -1097,6 +973,8 @@ for review in expanded_reviews:
 ```
 
 
+Here, we added user and business attributes to the reviews dictionary.
+
 
 
 ```python
@@ -1113,31 +991,851 @@ flatframe.drop(['U_yelping_since'],axis = 1, inplace = True)
 ```
 
 
+We decided to change "U_yelping_since", which was a year, to the number of years a user has been active (so that it would make more sense as a continuous variable).
+
 
 
 ```python
-flatframe = flatframe.drop(['business_id', 'review_id', 'user_id'], axis = 1)
+flatframe_wids = flatframe.drop(['business_id', 'review_id', 'user_id'], axis = 1)
+```
+
+
+This was just for convenience when performing regression later==we didn't want to use the drop function every time we referred to the dataframe.
+
+
+
+```python
+#one hot encode
+flatframe_wids = pd.get_dummies(flatframe_wids, columns = ['R_state', 
+                                                    'R_attributes.Alcohol', 'R_attributes.AgesAllowed', 'R_attributes.RestaurantsAttire',
+                                                    'R_attributes.RestaurantsPriceRange2','R_attributes.Smoking',
+                                                    'R_attributes.WiFi', 'R_attributes.NoiseLevel','R_attributes.BYOBCorkage'])
 ```
 
 
 
 
 ```python
-#one hot encode state
-flatframe = pd.get_dummies(flatframe, columns = ['R_state'])
+nan_count = {}
+for column in flatframe_wids:
+     nan_count[column] = flatframe_wids[column].isnull().sum()
+
+nan_sorted = sorted(nan_count.items(), key=lambda x: x[1], reverse = True) 
+drop_nans = [x[0] for x in nan_sorted if x[1] > 50000]
 ```
 
 
 
 
 ```python
-msk = np.random.rand(len(flatframe)) < 0.5
-data_train = flatframe[msk]
-data_test = flatframe[~msk]
+flatframe_wids = flatframe_wids.drop(drop_nans, axis = 1)
+flatframe_wids = flatframe_wids.fillna(flatframe_wids.mean())
 ```
 
 
-### Making the Model
+There were many attributes with an unusually large number of NaNs (not 0 or False). We used mean imputation for many of these, but if more than half of the rows had missing values, we felt uncomfortable doing so and decided to drop the column entirely instead.
+
+
+
+```python
+msk = np.random.rand(len(flatframe_wids)) < 0.5
+data_train = flatframe_wids[msk]
+data_test = flatframe_wids[~msk]
+```
+
+
+### Getting global averages
+
+
+
+```python
+user_df = json_normalize(user_data)
+```
+
+
+
+
+```python
+data_train_temp = flatframe[msk]
+data_test_temp = flatframe[~msk]
+```
+
+
+For this part of the project, we needed to include business and user ids for lookup purposes, which we had earlier deleted.
+
+
+
+```python
+users = data_train_temp.user_id.unique()
+user_total = user_df[user_df['user_id'].isin(users)]['average_stars']
+global_user_average = sum(user_total)/len(user_total)
+print (global_user_average)
+```
+
+
+    3.73744539253
+
+
+
+
+```python
+restaurants = data_train_temp.business_id.unique()
+restaurant_total = restaurant_df[restaurant_df['business_id'].isin(restaurants)]['stars']
+global_restaurant_average = sum(restaurant_total)/len(restaurant_total)
+print (global_restaurant_average)
+```
+
+
+    3.5691960774
+
+
+
+
+```python
+global_review_average = data_train['stars'].mean()
+print (global_review_average)
+```
+
+
+    3.7128174365126974
+
+
+The "global user average" takes a single user and his/her average rating given as one data point. The 'global restaurant average' does the same with individual restaurants. The 'global review average' averages every rating from every review. These are different values as each individual rating is weighted differently in each method.
+
+### Getting restaurant and user biases
+
+
+
+```python
+user_deviations = {}
+for item in user_data:
+    user_id = item['user_id']
+    user_deviations[user_id] = item['average_stars'] - global_user_average
+```
+
+
+
+
+```python
+restaurant_deviations = {}
+for item in restaurant_data:
+    rest_id = item['business_id']
+    restaurant_deviations[rest_id] = item['stars'] - global_restaurant_average
+```
+
+
+We decided to use the global user average and the global restaurant average for the user and restaurant bias calculation respectively (rather than global review average for everything) because we felt that it was most appropriate to compare a user's average rating to other users and a restaurant's average rating to other restaurants rather than to an average of all reviews.
+
+### Baseline Model
+
+
+
+```python
+Xtrain = data_train.drop(['stars'], axis = 1)
+ytrain = data_train['stars']
+Xtest = data_test.drop(['stars'], axis = 1)
+ytest = data_test['stars']
+```
+
+
+
+
+```python
+def baseline(user_id, business_id):
+    pred = global_review_average + user_deviations[user_id] + restaurant_deviations[business_id]
+    return int(round(pred))
+```
+
+
+
+
+```python
+base_pred = [baseline(x,y) for x,y in zip(data_train_temp['user_id'],data_train_temp['business_id'])]
+base_pred_test = [baseline(x,y) for x,y in zip(data_test_temp['user_id'],data_test_temp['business_id'])]
+```
+
+
+
+
+```python
+print ("The accuracy score of the baseline model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, base_pred)))
+print ("The accuracy score of the baseline model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, base_pred_test)))
+```
+
+
+    The accuracy score of the baseline model on the train set is 0.3932413517296541
+    The accuracy score of the baseline model on the test set is 0.38885777155431084
+
+
+
+
+```python
+pred_df_train = pd.DataFrame({'y' : ytrain, 'ypred' : base_pred})
+pred_df_test = pd.DataFrame({'y' : ytest, 'ypred' : base_pred_test})
+
+base_pred_avg = []
+base_pred_test_avg = []
+for i in [1, 2, 3, 4, 5]:
+    base_pred_avg.append(pred_df_train[pred_df_train['y'] == i]['ypred'].mean())
+    base_pred_test_avg.append(pred_df_test[pred_df_test['y'] == i]['ypred'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], base_pred_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for baseline model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_70_1.png)
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], base_pred_test_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for baseline model, test set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_71_1.png)
+
+
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings.
+
+## Part 2: Create a Regularized Regression
+
+### Linear Model
+
+
+
+```python
+model = LinearRegression()
+model.fit(Xtrain, ytrain)
+```
+
+
+
+
+
+    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+
+
+
+We used a linear model rather than a logistic model as although the y-varaible was categorical (1, 2, 3, 4, or 5), it was ordinal.
+
+
+
+```python
+ypred = model.predict(Xtrain)
+ypred_test = model.predict(Xtest)
+predround = [int(round(x)) for x in ypred]
+print ("The accuracy score of the linear model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, predround)))
+predround_test = [int(round(x)) for x in ypred_test]
+print ("The accuracy score of the linear model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, predround_test)))
+```
+
+
+    The accuracy score of the linear model on the train set is 0.38662267546490703
+    The accuracy score of the linear model on the test set is 0.3810962192438488
+
+
+Here, we round the predictions from the model to the nearest integer to fit the predictions in the categories (1, 2, 3, 4, or 5).
+
+### Lasso CV
+
+
+
+```python
+model_lasso = LassoCV().fit(Xtrain, ytrain)
+```
+
+
+
+
+```python
+lasso_ypred = model_lasso.predict(Xtrain)
+lasso_ypred_round = [int(round(x)) for x in lasso_ypred]
+lasso_ypred_test = model_lasso.predict(Xtest)
+lasso_ypred_test_round = [int(round(x)) for x in lasso_ypred_test]
+```
+
+
+
+
+```python
+print ("The accuracy score of the lasso model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, lasso_ypred_round)))
+print ("The accuracy score of the lasso model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, lasso_ypred_test_round)))
+```
+
+
+    The accuracy score of the lasso model on the train set is 0.3672265546890622
+    The accuracy score of the lasso model on the test set is 0.36415283056611325
+
+
+### Ridge CV
+
+
+
+```python
+model_ridge = RidgeCV().fit(Xtrain, ytrain)
+```
+
+
+
+
+```python
+ridge_ypred = model_ridge.predict(Xtrain)
+ridge_ypred_round = [int(round(x)) for x in ridge_ypred]
+ridge_ypred_test = model_ridge.predict(Xtest)
+ridge_ypred_test_round = [int(round(x)) for x in ridge_ypred_test]
+```
+
+
+
+
+```python
+
+print ("The accuracy score of the ridge model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, ridge_ypred_round)))
+print ("The accuracy score of the ridge model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, ridge_ypred_test_round)))
+```
+
+
+    The accuracy score of the ridge model on the train set is 0.3862627474505099
+    The accuracy score of the ridge model on the test set is 0.38135627125425087
+
+
+We will be using the regularized linear regression using the ridge method as it performed better than the lasso method for accuracy score (and very similarly to the naive linear regression).
+
+
+
+```python
+pred_df_train = pd.DataFrame({'y' : ytrain, 'ypred' : ridge_ypred_round})
+pred_df_test = pd.DataFrame({'y' : ytest, 'ypred' : ridge_ypred_test_round})
+
+ridge_pred_avg = []
+ridge_pred_test_avg = []
+for i in [1, 2, 3, 4, 5]:
+    ridge_pred_avg.append(pred_df_train[pred_df_train['y'] == i]['ypred'].mean())
+    ridge_pred_test_avg.append(pred_df_test[pred_df_test['y'] == i]['ypred'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], ridge_pred_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for ridge-regularized linear model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_89_1.png)
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], ridge_pred_test_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for ridge-regularized linear model, test set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_90_1.png)
+
+
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings and underestimate for higher ratings.
+
+## Part 3: Matrix Factorization
+
+
+
+```python
+
+```
+
+
+
+
+```python
+
+```
+
+
+
+
+```python
+
+```
+
+
+## Part 4: A Different Model
+
+### Naive kNN Model
+
+
+
+```python
+from sklearn.neighbors import KNeighborsRegressor
+knn = KNeighborsRegressor(n_neighbors=5, n_jobs=-1)
+knn.fit(Xtrain, ytrain)
+```
+
+
+
+
+
+    KNeighborsRegressor(algorithm='auto', leaf_size=30, metric='minkowski',
+              metric_params=None, n_jobs=-1, n_neighbors=5, p=2,
+              weights='uniform')
+
+
+
+We used a KNeighborsRegressor model as we felt that a regressor was more appropriate than a classifier because although the y-variable was categorical (1, 2, 3, 4, 5), it was also ordinal.
+
+
+
+```python
+ypred_train = np.round(knn.predict(Xtrain)).astype(int)
+ypred_test = np.round(knn.predict(Xtest)).astype(int)
+```
+
+
+
+
+```python
+print ("The accuracy score of the knn model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, ypred_train)))
+print ("The accuracy score of the knn model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, ypred_test)))
+```
+
+
+    The accuracy score of the knn model on the train set is 0.35208958208358326
+    The accuracy score of the knn model on the test set is 0.28095619123824767
+
+
+### Cross-Validation
+
+
+
+```python
+from sklearn.model_selection import KFold
+means = []
+
+for i in range(1, 11):
+    knn = KNeighborsRegressor(n_neighbors=i, n_jobs=-1)
+    n_folds=5
+    fold = 0
+    
+    valid_acc = [0, 0, 0, 0, 0]
+    for train, valid in KFold(n_folds, shuffle=True).split(range(len(Xtrain))):
+        train_set = data_train.iloc[train]
+        valid_set = data_train.iloc[valid]
+        
+        X_cross_train = train_set.drop(['stars'], axis = 1)
+        y_cross_train = train_set['stars']
+        X_cross_valid = valid_set.drop(['stars'], axis = 1)
+        y_cross_valid = valid_set['stars']
+
+        knn.fit(X_cross_train, y_cross_train)
+        
+        y_hat_train_cross = np.round(knn.predict(X_cross_train)).astype(int)
+        y_hat_valid_cross = np.round(knn.predict(X_cross_valid)).astype(int)
+        
+        valid_acc[fold] = metrics.accuracy_score(y_cross_valid, y_hat_valid_cross)
+        fold += 1
+    print(str(i) + ', ' + str(np.mean(valid_acc)))
+    means.append(np.mean(valid_acc))
+    
+k = (means.index(np.max(means)) + 1)
+print(str(k) + " = k model has highest mean validation accuracy score at: " + str(np.max(means)))
+```
+
+
+    1, 0.321295740852
+    2, 0.290061987602
+    3, 0.289662067586
+    4, 0.28600279944
+    5, 0.279764047191
+    6, 0.275964807039
+    7, 0.274945010998
+    8, 0.272985402919
+    9, 0.268126374725
+    10, 0.268326334733
+    1 = k model has highest mean validation accuracy score at: 0.321295740852
+
+
+Here, we had to hard-code cross-validation (rather than using cross_val_score because the default scoring method for kNeighborsRegressor was r2, and we wanted to use classification accuracy. The mean validation accuracy consistently decreases as k increases-- k=1 is the best-performing model.
+
+### Final kNN Model
+
+
+
+```python
+knn = KNeighborsRegressor(n_neighbors=1, n_jobs=-1)
+knn.fit(Xtrain, ytrain)
+ypred_train = np.round(knn.predict(Xtrain)).astype(int)
+ypred_test = np.round(knn.predict(Xtest)).astype(int)
+print ("The accuracy score of the knn model on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, ypred_train)))
+print ("The accuracy score of the knn model on the test set is {}"
+       .format(metrics.accuracy_score(ytest, ypred_test)))
+```
+
+
+    The accuracy score of the knn model on the train set is 0.9999400119976005
+    The accuracy score of the knn model on the test set is 0.327125425085017
+
+
+It is interesting that the highest performing model has k=1--this was true in both cross-validation and when looking at test accuracies separately (code not shown here for test accuracies of other models). This suggests that for a given user-restaurant combination, the single user-restaurant combination already in the dataset that is closest to the desired combination is most reflective of the desired combination (rather than an aggregate of several close combinations). Furthermore, this model has a relatively lower test accuracy than the baseline and the regression models, suggesting that it is not the best model to use for this dataset. Cross-validation did increase the accuracy score from the naive model (which used k = 5 as default).
+
+
+
+```python
+pred_df_train = pd.DataFrame({'y' : ytrain, 'ypred' : ypred_train})
+pred_df_test = pd.DataFrame({'y' : ytest, 'ypred' : ypred_test})
+
+knn_pred_avg = []
+knn_pred_test_avg = []
+for i in [1, 2, 3, 4, 5]:
+    knn_pred_avg.append(pred_df_train[pred_df_train['y'] == i]['ypred'].mean())
+    knn_pred_test_avg.append(pred_df_test[pred_df_test['y'] == i]['ypred'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], knn_pred_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for knn model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_109_1.png)
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], knn_pred_test_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for knn model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_110_1.png)
+
+
+As k=1, the training set has a perfect match between actual ratings and predicted ratings. For the test set, however, the average predicted ratings start at around 3.25 when the actual ratings are 1 and increase slightly to about 3.75 when the actual ratings are 5 (much flatter graph than the other models).
+
+## Part 5: Ensemble Method
+
+### Majority Vote Model
+
+
+
+```python
+from collections import Counter
+predictions_train = []
+predictions_test = []
+counter_predictions_train = []
+counter_predictions_test = []
+
+base_pred = [baseline(x,y) for x,y in zip(data_train_temp['user_id'],data_train_temp['business_id'])]
+base_pred_test = [baseline(x,y) for x,y in zip(data_test_temp['user_id'],data_test_temp['business_id'])]
+ridge_ypred_round = [int(round(x)) for x in ridge_ypred]
+ridge_ypred_test_round = [int(round(x)) for x in ridge_ypred_test]
+#matrix factorization train
+#matrix factorization test
+knn_pred_train = np.round(knn.predict(Xtrain)).astype(int)
+knn_pred_test = np.round(knn.predict(Xtest)).astype(int)
+
+for i in range(len(ytrain)):
+    temp = []
+    temp.append(base_pred[i])
+    temp.append(ridge_ypred_round[i])
+    #temp.append(matrix factorization train)
+    temp.append(knn_pred_train[i])
+    counter_predictions_train.append(Counter(temp))
+    predictions_train.append(temp)
+    
+for i in range(len(ytest)):
+    temp = []
+    temp.append(base_pred_test[i])
+    temp.append(ridge_ypred_test_round[i])
+    #temp.append(matrix factorization test)
+    temp.append(knn_pred_test[i])
+    counter_predictions_test.append(Counter(temp))
+    predictions_test.append(temp)
+```
+
+
+
+
+```python
+ensemble_pred_train = []
+ensemble_pred_test = []
+
+for i in range(len(counter_predictions_train)):
+    value, count = counter_predictions_train[i].most_common()[0]
+    ensemble_pred_train.append(value)
+    
+for i in range(len(counter_predictions_test)):
+    value, count = counter_predictions_test[i].most_common()[0]
+    ensemble_pred_test.append(value)
+```
+
+
+
+
+```python
+print ("The accuracy score of the ensemble model (majority vote) on the train set is {}"
+       .format(metrics.accuracy_score(ytrain, ensemble_pred_train)))
+print ("The accuracy score of the ensemble model (majority vote) on the test set is {}"
+       .format(metrics.accuracy_score(ytest, ensemble_pred_test)))
+```
+
+
+    The accuracy score of the ensemble model (majority vote) on the train set is 0.47726454709058186
+    The accuracy score of the ensemble model (majority vote) on the test set is 0.39947989597919586
+
+
+This ensemble method predicts by taking a majority vote of every model's prediction for a given predictor set. This improves upon all the models--both training and test accuracies are higher than any individual component model of the ensemble model (excluding training accuracy for kNN, which was 1 because k = 1).}
+
+
+
+```python
+pred_df_train = pd.DataFrame({'y' : ytrain, 'ypred' : ensemble_pred_train})
+pred_df_test = pd.DataFrame({'y' : ytest, 'ypred' : ensemble_pred_test})
+
+majority_pred_avg = []
+majority_pred_test_avg = []
+for i in [1, 2, 3, 4, 5]:
+    majority_pred_avg.append(pred_df_train[pred_df_train['y'] == i]['ypred'].mean())
+    majority_pred_test_avg.append(pred_df_test[pred_df_test['y'] == i]['ypred'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], majority_pred_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for majority-based ensemble model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_119_1.png)
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], majority_pred_test_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for majority-based ensemble model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_120_1.png)
+
+
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings.
+
+### Ensemble Method Using Logistic Regression
+
+
+
+```python
+logreg = LogisticRegressionCV()
+y_hat_test = logreg.fit(predictions_train, ytrain).predict(predictions_test)
+y_hat_train = logreg.fit(predictions_train, ytrain).predict(predictions_train)
+
+print("Train LogReg: ", metrics.accuracy_score(ytrain, y_hat_train))
+print("Test LogReg: ", metrics.accuracy_score(ytest, y_hat_test))
+```
+
+
+    Train LogReg:  0.76050789842
+    Test LogReg:  0.362692538508
+
+
+This model performed significantly better on the training set; however, it actually performed *worse* on the test set. This may be because of the kNN model being weighted more because of its high training accuracy due to its parameter k being 1.
+
+
+
+```python
+pred_df_train = pd.DataFrame({'y' : ytrain, 'ypred' : y_hat_train})
+pred_df_test = pd.DataFrame({'y' : ytest, 'ypred' : y_hat_test})
+
+log_pred_avg = []
+log_pred_test_avg = []
+for i in [1, 2, 3, 4, 5]:
+    log_pred_avg.append(pred_df_train[pred_df_train['y'] == i]['ypred'].mean())
+    log_pred_test_avg.append(pred_df_test[pred_df_test['y'] == i]['ypred'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], log_pred_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for logistic-based ensemble model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_126_1.png)
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], log_pred_test_avg, color='red')
+
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for logistic-based ensemble model, training set')
+ax.set_ylim((1,5))
+```
+
+
+
+
+
+    (1, 5)
+
+
+
+
+![png](FinalProject_vIk_files/FinalProject_vIk_127_1.png)
+
+
+For the training set, the model performed well for when actual ratings were 1, 4, and 5 (not 2 and 3). The line was very flat for the test set, reflecting the large influence that the knn model had using this ensemble method.
 
 
 
