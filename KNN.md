@@ -1,5 +1,5 @@
 ---
-title: calculate averages
+title: Extra Model
 notebook: KNN.ipynb
 nav_include: 4
 ---
