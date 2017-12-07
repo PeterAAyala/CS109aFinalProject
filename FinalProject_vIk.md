@@ -1,6 +1,7 @@
 ---
-title: calculate averages
+title: Baseline Model
 notebook: FinalProject_vIk.ipynb
+nav_include: 3
 ---
 
 ## Contents
