@@ -1,6 +1,7 @@
 ---
 title: calculate averages
 notebook: FinalProject_vIk.ipynb
+nav_include: 2
 ---
 
 ## Contents
