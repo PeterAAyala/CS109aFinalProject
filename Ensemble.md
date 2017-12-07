@@ -1,7 +1,7 @@
 ---
 title: Ensemble
 notebook: Ensemble.ipynb
-nav_include: 5
+nav_include: 6
 ---
 
 ## Contents

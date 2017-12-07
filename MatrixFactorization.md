@@ -1,7 +1,7 @@
 ---
 title: ALS Matrix Factorization
 notebook: MatrixFactorization.ipynb
-nav_include: 6
+nav_include: 4
 ---
 
 ## Contents
