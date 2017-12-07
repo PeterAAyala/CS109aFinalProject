@@ -13,7 +13,7 @@ nav_include: 4
 
 ### Naive kNN Model
 
-
+For our different model approach, we decided to fot a KNN model to predict potential outcomes. Although the y-variable was categorical (1, 2, 3, 4, 5), it was also ordinal and could likely be approximated well by a KNN model. 
 
 ```python
 from sklearn.neighbors import KNeighborsRegressor
@@ -28,10 +28,6 @@ knn.fit(Xtrain, ytrain)
     KNeighborsRegressor(algorithm='auto', leaf_size=30, metric='minkowski',
               metric_params=None, n_jobs=-1, n_neighbors=5, p=2,
               weights='uniform')
-
-
-
-We used a KNeighborsRegressor model as we felt that a regressor was more appropriate than a classifier because although the y-variable was categorical (1, 2, 3, 4, 5), it was also ordinal.
 
 
 
@@ -158,16 +154,7 @@ ax.set_ylim((1,5))
 
 
 
-
-
-    (1, 5)
-
-
-
-
 ![png](KNN_files/KNN_51_1.png)
-
-
 
 
 ```python
@@ -179,13 +166,6 @@ ax.set_ylabel('Average Predicted ratings')
 ax.set_title('Actual vs. avg. predicted ratings for knn model, training set')
 ax.set_ylim((1,5))
 ```
-
-
-
-
-
-    (1, 5)
-
 
 
 

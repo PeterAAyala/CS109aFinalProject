@@ -174,4 +174,4 @@ ax.set_ylim((1,5))
 ![png](RegularizedRegression_files/RegularizedRegression_49_1.png)
 
 
-On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings and underestimate for higher ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values near 3.5, which is where a lot of the global averages are centered. 
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings and underestimate for higher ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values near 3.5, which is where a lot of the global averages are centered, which makes sense since this is what we also saw in our un-regularized simple baseline model. 
