@@ -2,7 +2,7 @@
 title: Predicting Yelp Recommendations
 ---
 
-# T-8.5 hours until scorpion bowls 
+# T-6 hours until scorpion bowls 
 
 
 
