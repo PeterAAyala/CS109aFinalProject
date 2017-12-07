@@ -2,7 +2,7 @@
 title: Predicting Yelp Recommendations
 ---
 
-# Group 25: Monica Song, Peter Ayala, Ikhoon Jung 
+## Group 25: Monica Song, Peter Ayala, Ikhoon Jung 
 
 
 
@@ -30,8 +30,19 @@ In the ‘user’ dataset, we removed ‘name’. We converted the list of ‘fr
 
 In the ‘review’ dataset, we removed ‘text’, ‘useful’, ‘funny’, and ‘cool’, as ‘text’ would require text parsing for any useful information and the others were not information on the user’s decision making but other users’ reactions to the review.
 
+## Literature 
 
+The biggest resource we used throughout this process was the Netflix Award article. It really laid the foundation of our understanding of matrix factorization and how to build one. Found here: https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
 
+The other four documents listed in the project proposal also proved helpful, though to a lesser extent. 
+
+1. *Ensembling for the Netflix Prize*,http://web.stanford.edu/~lmackey/papers/netflix_story-nas11-slid.pdf
+
+2. *Reviews on methods for Netflix prize*, http://arxiv.org/abs/1202.1112andhttp://www.grouplens.org/system/files/FnT%20CF%20Recsys%20Survey.pdf
+
+3. *Advances in Collaborative Filtering from the Netflix prize*,https://datajobs.com/data-science-repo/ Collaborative-Filtering-%5BKoren-and-Bell%5D.pdf
+
+4. *How the Netflix prize was won*, http://blog.echen.me/2011/10/24/winning-the-netflix-prize-a-summary/
 
 ​				
 ​			
