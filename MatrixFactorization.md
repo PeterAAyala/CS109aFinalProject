@@ -9,36 +9,6 @@ nav_include: 4
 *  
 {: toc}
 
-### Importing Data
-
-
-
-```python
-
-with open('dataset/good_reviews.json') as f:
-    good_reviews = [json.loads(line) for line in f]
-with open('dataset/business.json') as f:
-    business_data = [json.loads(line) for line in f]
-with open('dataset/user.json') as f:
-    user_data = [json.loads(line) for line in f]
-
-
-```
-
-
-
-
-```python
-good_reviews = good_reviews[0]
-```
-
-
-
-
-```python
-sorted_user_reviews = sorted(good_reviews, key = lambda x: x['user_id'])
-```
-
 
 ## Creating the train, valid, and test sets
 
@@ -50,30 +20,14 @@ For matrix factorization, we faced several unique issues:
 
 * Size of model: Our train set included 1252 users and 3484 restaurants, Thus, we only computed latent factors for 1252 users and 3484 items.
 
-
-
-```python
-train_set = []
-valid_set = []
-test_set = []
-for i,x in enumerate(sorted_user_reviews[:100000]):
-    short = {k: x[k] for k in ['business_id', 'stars', 'user_id']}
-    if i % 3 == 0:
-        train_set.append(short)
-    elif i % 3 == 1:
-        valid_set.append(short)  
-    else:
-        test_set.append(short)
-```
+We also made sure that the same users were represented in the train, valid, and test sets and in the same proportion. 
 
 
 
 
-```python
-train_df = pd.DataFrame(train_set)
-valid_df = pd.DataFrame(valid_set)
-test_df = pd.DataFrame(test_set)
-```
+
+
+
 
 
 
@@ -330,62 +284,53 @@ ALS_4()
     86.80000000000001
     minimizing user vectors
     12.399999999999997
-    minimizing item vectors
 
-
-    ERROR:root:Internal Python error in the inspect module.
-    Below is the traceback from this internal error.
-    
-
-
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/interactiveshell.py", line 2881, in run_code
-        exec(code_obj, self.user_global_ns, self.user_ns)
-      File "<ipython-input-40-cf41abbe0d88>", line 1, in <module>
-        ALS_4()
-      File "<ipython-input-39-7b846cbe4343>", line 8, in ALS_4
-        conv = minimize_item_vectors_4()
-      File "<ipython-input-35-4e7e92481872>", line 27, in minimize_item_vectors_4
-        tuning_sum = calculate_sum_item_4(tuning_vector, item)
-      File "<ipython-input-35-4e7e92481872>", line 3, in calculate_sum_item_4
-        rv_mag = np.linalg.norm(item_vector)
-      File "/anaconda/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 2022, in norm
-        def norm(x, ord=None, axis=None, keepdims=False):
-    KeyboardInterrupt
-    
-    During handling of the above exception, another exception occurred:
-    
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/interactiveshell.py", line 1821, in showtraceback
-        stb = value._render_traceback_()
-    AttributeError: 'KeyboardInterrupt' object has no attribute '_render_traceback_'
-    
-    During handling of the above exception, another exception occurred:
-    
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 1132, in get_records
-        return _fixed_getinnerframes(etb, number_of_lines_of_context, tb_offset)
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 313, in wrapped
-        return f(*args, **kwargs)
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 358, in _fixed_getinnerframes
-        records = fix_frame_records_filenames(inspect.getinnerframes(etb, context))
-      File "/anaconda/lib/python3.6/inspect.py", line 1453, in getinnerframes
-        frameinfo = (tb.tb_frame,) + getframeinfo(tb, context)
-      File "/anaconda/lib/python3.6/inspect.py", line 1411, in getframeinfo
-        filename = getsourcefile(frame) or getfile(frame)
-      File "/anaconda/lib/python3.6/inspect.py", line 666, in getsourcefile
-        if getattr(getmodule(object, filename), '__loader__', None) is not None:
-      File "/anaconda/lib/python3.6/inspect.py", line 695, in getmodule
-        file = getabsfile(object, _filename)
-      File "/anaconda/lib/python3.6/inspect.py", line 679, in getabsfile
-        return os.path.normcase(os.path.abspath(_filename))
-      File "/anaconda/lib/python3.6/posixpath.py", line 374, in abspath
-        cwd = os.getcwd()
-    FileNotFoundError: [Errno 2] No such file or directory
+Here are the final vectors after convergence:
 
 
 
-    ---------------------------------------------------------------------------
+```python
+list(p_user.items())[:10]
+```
+
+
+
+
+
+    [('---1lKK3aKOuomHnwAkAow', [0.1, 0.1, 0.1, 0.1]),
+     ('--2vR0DIsmQ6WfcSzKWigw', [0.1, 0.1, 0.1, 0.1]),
+     ('--3WaS23LcIXtxyFULJHTA', [0.1, 0.1, 0.1, 0.1]),
+     ('--4q8EyqThydQm-eKZpS-A', [0.9, 0.9, 0.9, 0.9]),
+     ('--56mD0sm1eOogphi2FFLw', [0.9, 0.9, 0.9, 0.9]),
+     ('--CIuK7sUpaNzalLAlHJKA', [0.1, 0.8, 0.9, 0.1]),
+     ('--J3HPoNe-IJ0xE10Z_sDg', [0.1, 0.1, 0.1, 0.1]),
+     ('--Qh8yKWAvIP4V4K8ZPfHA', [0.1, 0.8, 0.1, 0.1]),
+     ('--RlSfc-QmcHFGHyX6aVjA', [0.1, 0.1, 0.1, 0.1]),
+     ('--ZNfWKj1VyVElRx6-g1fg', [0.1, 0.1, 0.1, 0.1])]
+
+
+
+
+
+```python
+list(q_item.items())[:10]
+```
+
+
+
+
+
+    [('sZsJooAzpKqOvDysphkqpQ', [0.1, 0.1, 0.1, 0.1]),
+     ('t6WY1IrohUecqNjd9bG42Q', [0.1, 0.3, 0.8, 0.2]),
+     ('1JgaRBX0oiRsvEhHF3ZMjw', [0.1, 0.1, 0.1, 0.1]),
+     ('2BbFeotL85cIaBjSq1SWiA', [0.1, 0.1, 0.1, 0.1]),
+     ('5cbsjFtrntUAeUx51FaFTg', [0.1, 0.1, 0.1, 0.1]),
+     ('eJKnymd0BywNPrJw1IuXVw', [0.1, 0.1, 0.1, 0.1]),
+     ('Gdv3qhsDeQzZ2Ag-Tzq6vA', [0.1, 0.1, 0.1, 0.1]),
+     ('vW65SNLam99SyOuVagNuvg', [0.1, 0.3, 0.1, 0.3]),
+     ('nK7JeIqdBli3umEhBIh33g', [0.1, 0.1, 0.9, 0.1]),
+     ('zt5S0bSsc8JAWalRMpSk6Q', [0.1, 0.1, 0.1, 0.1])]
+
 
 
 ## Validating to determine the best lambda
@@ -412,8 +357,10 @@ keep_users = [item for item in d if d[item] > 20]
 ```
 
 
-### we have an extremely small set to expedite the process of validating
+### Validating to determing the regularization parameter
 
+
+We cut down on our valid set, keeping ~300 data points, in order to expedite the process of validation.
 
 
 
@@ -421,15 +368,19 @@ keep_users = [item for item in d if d[item] > 20]
 valid_trimmed = [x for x in valid_set if x['business_id'] in keep_business and x['user_id'] in keep_users]
 valid_trimmed_df = pd.DataFrame(valid_trimmed)
 valid_trimmed_df.shape
-valid_scores = {(x['user_id'], x['business_id']): x['stars'] for x in valid_trimmed}
+
 ```
 
 
 
 
-```python
-valid_trimmed_df.sort_values(by = ['user_id']).head()
-```
+
+    (306, 3)
+
+
+
+
+
 
 
 
@@ -494,6 +445,8 @@ valid_trimmed_df.sort_values(by = ['user_id']).head()
 </div>
 
 
+
+Our code for cross validation is similar to our code above.
 
 
 
@@ -651,12 +604,6 @@ def run_validation(LAMBDAS):
 
 ```python
 LAMBDAS = [0.001, 0.01, 0.1, 1, 10]
-```
-
-
-
-
-```python
 run_validation(LAMBDAS)
 ```
 
@@ -746,10 +693,6 @@ run_validation(LAMBDAS)
 
 
 
-```python
-validation_scores = {0.001:0.59477124183, 0.01: 0.598039215686, 0.1: 0.598039215686,
-                     1: 0.598039215686,10: 0.601307189542}
-```
 
 
 
@@ -770,6 +713,8 @@ validation_scores
 
 
 
+The best lambda according to our validation is 10. However, because ALS is extremely time-intensive, we were unable to retune our latent factors using the lambda.
+
 
 
 ```python
@@ -780,48 +725,211 @@ def model_predict(user_id, business_id):
     if user_id in p_user:
         if business_id in q_item:
             latent_term = np.dot(p_user[user_id], q_item[business_id]) 
-    prediction = global_review_average + user_dev + item_dev + latent_term
+    prediction = global_review_average + user_dev + item_dev 
+    latent = prediction + latent_term
     #print (prediction)
-    return int(round(prediction))
+    return int(round(prediction)), int(round(latent))
 
 def predict_all(df):
     predictions = []
+    base_predictions = []
     for j in range(len(df)):
         row = df.iloc[j]
         business_id = row[0]
         user_id = row[2]
-        pred = model_predict(user_id, business_id)
-        predictions.append(pred)
-    df['pred'] = predictions
-    return metrics.accuracy_score(df['stars'], df['pred'])
-    
+        pred, latent = model_predict(user_id, business_id)
+        base_predictions.append(pred)
+        predictions.append(latent)
+    df['pred_base'] = base_predictions
+    df['pred_latent'] = predictions
+    base_score = metrics.accuracy_score(df['stars'], df['pred_base'])
+    latent_score = metrics.accuracy_score(df['stars'], df['pred_latent'])
+    return base_score, latent_score
 ```
 
 
-## Evaluating the latent factors on the train and test sets
+## Evaluating and comparing the latent factors on the train and test sets
 
 
 
 ```python
 train_pred = pd.DataFrame(trimmed_train)
-train_score = predict_all(train_pred)
-print ('The accuracy on the train set using latent factors is {}'.format(train_score))
+base, latent = predict_all(train_pred)
+print ('The accuracy on the train set is {}'.format(base))
+print ('The accuracy on the train set using latent factors is {}'.format(latent))
 ```
 
 
+    The accuracy on the train set is 0.4056
     The accuracy on the train set using latent factors is 0.6136
 
+
+We modified our test set to include (user, restaurant) reviews where both the user and restaurant had a latent factor associated it.
 
 
 
 ```python
 test_set_v2 = [x for x in test_set if x['business_id'] in q_item and x['user_id'] in p_user]
 test_df_v2 = pd.DataFrame(test_set_v2)
-test_score = predict_all(test_df_v2)
-print ('The accuracy on the test set using latent factors is {}'.format(test_score))
+base_test, latent_test = predict_all(test_df_v2)
+print ('The accuracy on the test set is {}'.format(base_test))
+print ('The accuracy on the test set using latent factors is {}'.format(latent_test))
 
 ```
 
 
+    The accuracy on the test set is 0.398324802233597
     The accuracy on the test set using latent factors is 0.39599813866914846
 
+
+Our latent factor model is much more fitted to the train set, resulting in a higher train accuracy but equal test accuracy. 
+
+
+
+```python
+train_pred.head()
+```
+
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>business_id</th>
+      <th>stars</th>
+      <th>user_id</th>
+      <th>pred</th>
+      <th>pred_base</th>
+      <th>pred_latent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>sZsJooAzpKqOvDysphkqpQ</td>
+      <td>5</td>
+      <td>---1lKK3aKOuomHnwAkAow</td>
+      <td>4</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>t6WY1IrohUecqNjd9bG42Q</td>
+      <td>4</td>
+      <td>---1lKK3aKOuomHnwAkAow</td>
+      <td>4</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1JgaRBX0oiRsvEhHF3ZMjw</td>
+      <td>1</td>
+      <td>---1lKK3aKOuomHnwAkAow</td>
+      <td>4</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2BbFeotL85cIaBjSq1SWiA</td>
+      <td>1</td>
+      <td>---1lKK3aKOuomHnwAkAow</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5cbsjFtrntUAeUx51FaFTg</td>
+      <td>1</td>
+      <td>---1lKK3aKOuomHnwAkAow</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+```python
+pred_avg = []
+pred_avg_latent = []
+for i in [1, 2, 3, 4, 5]:
+    pred_avg.append(train_pred[train_pred['stars'] == i]['pred_base'].mean())
+    pred_avg_latent.append(train_pred[train_pred['stars'] == i]['pred_latent'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], pred_avg, color='red', label = 'baseline')
+ax.plot([1, 2, 3, 4, 5], pred_avg_latent, color='blue', label = 'latent')
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for baseline model, latent model on Training Set')
+ax.set_ylim((1,5))
+ax.legend();
+```
+
+
+
+![png](MatrixFactorization_files/MatrixFactorization_53_0.png)
+
+
+
+
+```python
+test_pred_avg = []
+test_pred_avg_latent = []
+for i in [1, 2, 3, 4, 5]:
+    test_pred_avg.append(test_df_v2[test_df_v2['stars'] == i]['pred_base'].mean())
+    test_pred_avg_latent.append(test_df_v2[test_df_v2['stars'] == i]['pred_latent'].mean())
+```
+
+
+
+
+```python
+fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+ax.plot([1, 2, 3, 4, 5], test_pred_avg, color='red', label = 'baseline')
+ax.plot([1, 2, 3, 4, 5], test_pred_avg_latent, color='blue', label = 'latent')
+ax.set_xlabel('Actual ratings')
+ax.set_ylabel('Average Predicted ratings')
+ax.set_title('Actual vs. avg. predicted ratings for baseline model, latent model on Testing Set')
+ax.set_ylim((1,5))
+ax.legend();
+```
+
+
+
+![png](MatrixFactorization_files/MatrixFactorization_55_0.png)
+
+
+### Latent factors overestimate
+
+As you can see, our latent factors overestimate compared the baseline. This is becase we only tuned using positive values, which assumed that all the residuals are positive. However, this is a false assumption as some residuals are negative. If we had the computational resources, we would have the values in our tuning vector range beteen (-1, 1). 

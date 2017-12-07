@@ -2,7 +2,7 @@
 title: Predicting Yelp Recommendations
 ---
 
-# T-6 hours until scorpion bowls 
+# Group 25: Monica Song, Peter Ayala, Ikhoon Jung 
 
 
 
