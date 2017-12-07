@@ -1,7 +1,6 @@
 ---
-title: Baseline Model
+title: calculate averages
 notebook: FinalProject_vIk.ipynb
-nav_include: 2
 ---
 
 ## Contents
@@ -21,29 +20,6 @@ This project was interested in building various regression models to predict a r
 
 
 
-```python
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import json
-import matplotlib
-import matplotlib.pyplot as plt
-import sklearn.metrics as metrics
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import LogisticRegressionCV
-from sklearn.linear_model import RidgeCV
-from sklearn.linear_model import LassoCV
-from random import *
-from math import log
-import copy
-pd.set_option('display.max_columns', None)
-from pandas.io.json import json_normalize
-
-
-from scipy.stats.stats import pearsonr   
-%matplotlib inline
-```
 
 
 
