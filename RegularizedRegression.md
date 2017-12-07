@@ -11,150 +11,19 @@ nav_include: 3
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    3.73744539253
-
-
-
-
-
-
-    3.5691960774
-
-
-
-
-
-
-    3.7128174365126974
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    The accuracy score of the baseline model on the train set is 0.3932413517296541
-    The accuracy score of the baseline model on the test set is 0.38885777155431084
-
-
-
-
-
-
 ## Part 2: Create a Regularized Regression
 
 ### Linear Model
 
+Now we are interested in building regularized regressions from our baseline model. In do so we are changing our regression fit from 
 
+$$ \hat{Y}_{um} = \hat{\mu} + \hat{\theta}_{u} + \hat{\gamma}_m $$
+
+to 
+
+$$ \hat{Y}_{um} = \hat{\mu} + \bar{\theta}I_u + \hat{\gamma} I_m $$
+
+where $I_u$ and $I_m$ are the indicator variables for the u-th user and the m-th restaurant in the feature matrix. We ended up building both Lasso and Ridge regressions to see if there were any improvements. 
 
 ```python
 model = LinearRegression()
