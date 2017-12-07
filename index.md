@@ -2,7 +2,7 @@
 title: Predicting Yelp Recommendations
 ---
 
-# T-48 hours until doomsday
+# T-10 hours until doomsday
 
 
 
