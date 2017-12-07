@@ -4,11 +4,6 @@ notebook: Conclusion.ipynb
 nav_include: 7
 ---
 
-## Contents
-{:.no_toc}
-*  
-{: toc}
-
 
 This project really was the ultimate capstone to the course. Throughout this project we were able to experience cleaning and wrangling a large dataset, building various prediction models from the Yelp database, and learning a lot about the ins-and-outs of Matrix Factorization. While none our models did significantly better than our first baseline model, it was still a valuable learning experience and the built models performed better than pure chance alone. Ultimately, two of the models (Majority vote and Matrix Factorization) did better than our baseline model when evaluated on the test set. 
 
@@ -20,10 +15,4 @@ In the end, this was definitely a worthwhile experience that taught us much abou
 
 Special thanks to Chin-Hui Chew, Rahul Dave, and Pavlos Protopapas for their wisdom and guidance.
 
-
-
-
-```python
-
-```
 
