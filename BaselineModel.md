@@ -23,7 +23,7 @@ Our first model was a simple baseline approach, written out as
 
 $$ \hat{Y}_{um} = \hat{\mu} + \hat{\theta}_{u} + \hat{\gamma}_m $$
 
-where $\hat{\theta}_{u}$ and $\hat{\gamma}_m$ indicate the deviations of user $u$ and restaurant $m$ from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}_{u}$ and $\hat{\gamma}_m$ were the global averages, as seen and explained further below.
+where $\hat{\theta}_{u}$ and $\hat{\gamma}_m$ indicate the deviations of user u and restaurant m from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}_{u}$ and $\hat{\gamma}_m$ were the global averages, as seen and explained further below.
 
 ### Creating training, validating, and testing sets
 
@@ -337,4 +337,4 @@ ax.set_ylim((1,5));
 ![png](BaselineModel_files/BaselineModel_39_0.png)
 
 
-On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings.
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values near 3.5, which is where a lot of the global averages are centered. 
