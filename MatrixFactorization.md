@@ -405,59 +405,6 @@ def ALS_4():
     minimizing user vectors
 
 
-    ERROR:root:Internal Python error in the inspect module.
-    Below is the traceback from this internal error.
-    
-
-
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/interactiveshell.py", line 2881, in run_code
-        exec(code_obj, self.user_global_ns, self.user_ns)
-      File "<ipython-input-356-cf41abbe0d88>", line 1, in <module>
-        ALS_4()
-      File "<ipython-input-355-d795ed05eb00>", line 12, in ALS_4
-        conv = minimize_user_vectors_4()
-      File "<ipython-input-354-421af5f37946>", line 29, in minimize_user_vectors_4
-        tuning_sum = calculate_sum_user_4(tuning_vector, user)
-      File "<ipython-input-354-421af5f37946>", line 10, in calculate_sum_user_4
-        term = np.dot(user_vector, item_vector)
-    KeyboardInterrupt
-    
-    During handling of the above exception, another exception occurred:
-    
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/interactiveshell.py", line 1821, in showtraceback
-        stb = value._render_traceback_()
-    AttributeError: 'KeyboardInterrupt' object has no attribute '_render_traceback_'
-    
-    During handling of the above exception, another exception occurred:
-    
-    Traceback (most recent call last):
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 1132, in get_records
-        return _fixed_getinnerframes(etb, number_of_lines_of_context, tb_offset)
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 313, in wrapped
-        return f(*args, **kwargs)
-      File "/anaconda/lib/python3.6/site-packages/IPython/core/ultratb.py", line 358, in _fixed_getinnerframes
-        records = fix_frame_records_filenames(inspect.getinnerframes(etb, context))
-      File "/anaconda/lib/python3.6/inspect.py", line 1453, in getinnerframes
-        frameinfo = (tb.tb_frame,) + getframeinfo(tb, context)
-      File "/anaconda/lib/python3.6/inspect.py", line 1411, in getframeinfo
-        filename = getsourcefile(frame) or getfile(frame)
-      File "/anaconda/lib/python3.6/inspect.py", line 666, in getsourcefile
-        if getattr(getmodule(object, filename), '__loader__', None) is not None:
-      File "/anaconda/lib/python3.6/inspect.py", line 695, in getmodule
-        file = getabsfile(object, _filename)
-      File "/anaconda/lib/python3.6/inspect.py", line 679, in getabsfile
-        return os.path.normcase(os.path.abspath(_filename))
-      File "/anaconda/lib/python3.6/posixpath.py", line 374, in abspath
-        cwd = os.getcwd()
-    FileNotFoundError: [Errno 2] No such file or directory
-
-
-
-    ---------------------------------------------------------------------------
-
-
 Here are the first ten final vectors after convergence:
 
 
