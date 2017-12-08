@@ -10,6 +10,7 @@ nav_include: 4
 {: toc}
 
 
+Here we 
 ## Creating the train, valid, and test sets
 
 For matrix factorization, we faced several unique issues:

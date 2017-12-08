@@ -18,6 +18,10 @@ Our project revolves around everything Yelp. We were tasked with creating variou
 
 Can we use many of the factors available in the restaurant and user dataset within the Yelp academic dataset to try and predict a rating for a restaurant given a particular user? Will there be a noticeable difference between various models (both parametric and non-parametric)? 
 
+## Website Design
+
+Our website is split up into the various major components of the project. On the beginning of each page you will find a high level overview of the model and it's ending training and testing accuracies, as well as some discussion about the results. The corresponding Python code and graphical outputs are then listed below, with intermittent comments explaining our rationale for certain design choices. 
+
 ## Data
 
 We are using the Yelp academic dataset, which comes in a package including the following json files: ‘business,’ ‘checkin,’ ‘photos,’ ‘review,’ ‘tip,’ and ‘user.’
