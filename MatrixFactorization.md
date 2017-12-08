@@ -9,7 +9,9 @@ nav_include: 4
 *  
 {: toc}
 
-### Importing Data
+### Introduction
+
+Matrix Factorization was time- and computationally- intensive. We initially had trouble understanding how to create and execute the algorithm. Afterwards, we made several mistakes in our execution, but fixed them later in the end: Sparse matrices: When we had matrices with over half zero values, our algorithm was unable to predict those squares. Thus, we changed to a 'flattened' matrix for our training, validating, and testing set where every value was known. Negative values: Initially, every value in our latent factor vectors was positive. However, we realized our mistake when we graphed our latent factor model against the baseline and saw that it consistenly overestimated. We realized that we were assuming that all the residuals were positive, which was incorrect. Thus, we corrected our mistake and made sure our tuning vectors contained values between (-1, 1). Cross validation: We were unable to perform cross validation in time. Additionally, we wanted to test lambda parameters [0.01, 0.1, 1, 10, 100], but were unable to tune across all values. We realize that our model vastly overfits, so we believe that a higher lambda parameter such as 10 or 100 would have been optimal. You will see in our code that we find that the highest lambda that we were able to compute in time was 10, but we unfortunately did not have the time to refit our training set using that lambda. Hyperparamaters: Again, we were unable to validate across hyperparameters such as number of latent factors and regularlization parameters due to time.
 
 
 Here we are interested in using a matrix factorization approach to predict the resulting ratings. We are interested in minimizing the loss function from the residuals as seen below.
@@ -19,8 +21,6 @@ $$ r_{um} = {\bar{q}_m}^T \bar{p}_u $$
 $$ \sum_{u,m} {\Big(Y_{um} - \mu - \bar{\theta}I_u - \bar{\gamma} I_m - {\bar{q}_m}^T \bar{p}_u \Big)}^2 + \alpha \Big( {\theta_u}^2 + {\gamma_m}^2 + {\| \bar{q}_m \|}^2 + {\| \bar{p}_u \|}^2\Big) $$ 
 
 
-## Creating the train, valid, and test sets
-
 For matrix factorization, we faced several unique issues:
 
 * Matrix Sparsity: Our data was incredibly sparse. Originally, our matrix had <5% non zero values. However, single-value decomposition doesn't work on sparse matrices. Thus, we had to reduce our set of restaurant reviews significantly, to only include restaurants and user with over 100 reviews. We also used alternating least squares to find the latent factor vectors, as opposed to SVD.
@@ -29,7 +29,7 @@ For matrix factorization, we faced several unique issues:
 
 * Size of model: Our train set included 1252 users and 3484 restaurants, Thus, we only computed latent factors for 1252 users and 3484 items.
 
-We also made sure that the same users were represented in the train, valid, and test sets and in the same proportion. Please see the end of this notevook for graphs and detailed analysis on matrix factorization. 
+We also made sure that the same users were represented in the train, valid, and test sets and in the same proportion. Please see the end of this notebook for graphs and detailed analysis on matrix factorization. 
 
 
 
