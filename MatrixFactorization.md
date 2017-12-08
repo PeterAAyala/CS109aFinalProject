@@ -29,7 +29,7 @@ For matrix factorization, we faced several unique issues:
 
 * Size of model: Our train set included 1252 users and 3484 restaurants, Thus, we only computed latent factors for 1252 users and 3484 items.
 
-We also made sure that the same users were represented in the train, valid, and test sets and in the same proportion. 
+We also made sure that the same users were represented in the train, valid, and test sets and in the same proportion. Please see the end of this notevook for graphs and detailed analysis on matrix factorization. 
 
 
 
