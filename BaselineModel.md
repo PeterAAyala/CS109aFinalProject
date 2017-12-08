@@ -12,18 +12,13 @@ nav_include: 2
 
 
 
-
-
-
-
-
 ## Part 1: Create a Baseline
 
 Our first model was a simple baseline approach, written out as 
 
 $$ \hat{Y}_{um} = \hat{\mu} + \hat{\theta}_{u} + \hat{\gamma}_m $$
 
-where $\hat{\theta}\_u$ and $\hat{\gamma}\_m$ indicate the deviations of user u and restaurant m from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}\_{u}$ and $\hat{\gamma}\_m$ were the global averages, as seen and explained further below. It will be good to start with a baseline model to have other models to compare to, since this is the simplest one that we will build. In the end, we found that our baseline model has a training accuracy of 0.393 and a testing accuracy of 0.389.
+where $\hat{\theta}\_u$ and $\hat{\gamma}\_m$ indicate the deviations of user u and restaurant m from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}\_{u}$ and $\hat{\gamma}\_m$ were the global averages, as seen and explained further below. It will be good to start with a baseline model to have other models to compare to, since this is the simplest one that we will build. In the end, we found that our baseline model has a training accuracy of 0.393 and a testing accuracy of 0.389. Ultimately we also found that the baseline model will tend to make predictions between 2.5 and 4.5, as seen in the graph at the end. This makes sense intuitively since we found the global averages to be around 3.5. 
 
 ### Creating training, validating, and testing sets
 

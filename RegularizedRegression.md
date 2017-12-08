@@ -23,7 +23,7 @@ to
 
 $$ \hat{Y}_{um} = \hat{\mu} + \bar{\theta}I_u + \hat{\gamma} I_m $$
 
-where $I_u$ and $I_m$ are the indicator variables for the u-th user and the m-th restaurant in the feature matrix. We ended up building both Lasso and Ridge regressions to see if there were any improvements. For Lasso we ultimately had accuracy scores of 0.367 for the training and 0.364 for the testing. For Ridge we had accuracy scores of 0.386 and 0.381 for the training and test sets, respectively. In both the training and test sets, Ridge and Lasso performed worse than our baseline model. This would suggest that the baseline model wasn't overfit to the training data, and Ridge/Lasso might be penalizing coefficients unnecessarily.
+where $I_u$ and $I_m$ are the indicator variables for the u-th user and the m-th restaurant in the feature matrix. We ended up building both Lasso and Ridge regressions to see if there were any improvements. For Lasso we ultimately had accuracy scores of 0.367 for the training and 0.364 for the testing. For Ridge we had accuracy scores of 0.386 and 0.381 for the training and test sets, respectively. In both the training and test sets, Ridge and Lasso performed worse than our baseline model. This would suggest that the baseline model wasn't overfit to the training data, and Ridge/Lasso might be penalizing coefficients unnecessarily. Similar to our baseline model, both Ridge and Lasso tended to predict values between 2.5 and 4.5. 
 
 ```python
 model = LinearRegression()

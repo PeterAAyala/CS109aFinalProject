@@ -13,7 +13,7 @@ nav_include: 5
 
 ### Naive kNN Model
 
-For our different model approach, we decided to fot a KNN model to predict potential outcomes. Although the y-variable was categorical (1, 2, 3, 4, 5), it was also ordinal and could likely be approximated well by a KNN model. 
+For our different model approach, we decided to fot a KNN model to predict potential outcomes. Although the y-variable was categorical (1, 2, 3, 4, 5), it was also ordinal and could likely be approximated well by a KNN model. We first used cross-validation to determine the optimal number of K neighbors, which we found to be 1. This resulted in a training accuracy of 0.999979. However, when we look at it's performance on the testing, we see that it has severely overfit the model with its testing score of 0.324. This is much lower than our baseline testing accuracy of 0.389. As seen in our graph at the end of this page, our KNN model tends to predict most values between 3.25 and 3.75. 
 
 ```python
 from sklearn.neighbors import KNeighborsRegressor
