@@ -46,7 +46,13 @@ The other four documents listed in the project proposal also proved helpful, tho
 
 3. *Advances in Collaborative Filtering from the Netflix prize*, https://datajobs.com/data-science-repo/Collaborative-Filtering-%5BKoren-and-Bell%5D.pdf
 
-4. *How the Netflix prize was won*, http://blog.echen.me/2011/10/24/winning-the-netflix-prize-a-summary/
+4. *How the Netflix prize was won*, http://blog.echen.me/2011/10/24/winning-the-netflix-prize-a-summary/'
+
+There were also a couple of blog points we would like to acknowledge for their information 
+
+1. *Explicit Matrix Factorization: ALS, SGD, and All That Jazz*, https://blog.insightdatascience.com/explicit-matrix-factorization-als-sgd-and-all-that-jazz-b00e4d9b21ea 
+
+2. *Mickeykedia's github, Matrix-Factorization-ALS*, https://github.com/mickeykedia/Matrix-Factorization-ALS
 
 ​				
 ​			
