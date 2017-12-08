@@ -12,8 +12,9 @@ nav_include: 4
 
 Here we are interested in using a matrix factorization approach to predict the resulting ratings. We are interested in minimizing the loss function from the residuals as seen below.
 
-$$ r_{um} = {\bat{q}_m}^T \bar{p}_u $$ 
-$$ \sum_{u,m} {\Big(Y_{um} - \mu - \bar{\theta}I_u - \bar{\gamma} I_m - {\bat{q}_m}^T \bar{p}_u \Big)}^2 + \alpha \Big( {\theta_u}^2 + {\gamma_m}^2 + {\| \bar{q}_m \|}^2 + {\| \bar{p}_u \|}^2\Big) $$ 
+$$ r_{um} = {\bar{q}_m}^T \bar{p}_u $$ 
+
+$$ \sum_{u,m} {\Big(Y_{um} - \mu - \bar{\theta}I_u - \bar{\gamma} I_m - {\bar{q}_m}^T \bar{p}_u \Big)}^2 + \alpha \Big( {\theta_u}^2 + {\gamma_m}^2 + {\| \bar{q}_m \|}^2 + {\| \bar{p}_u \|}^2\Big) $$ 
 
 
 ## Creating the train, valid, and test sets
