@@ -23,7 +23,7 @@ Our first model was a simple baseline approach, written out as
 
 $$ \hat{Y}_{um} = \hat{\mu} + \hat{\theta}_{u} + \hat{\gamma}_m $$
 
-where $\hat{\theta}\_u$ and $\hat{\gamma}\_m$ indicate the deviations of user u and restaurant m from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}\_{u}$ and $\hat{\gamma}\_m$ were the global averages, as seen and explained further below.
+where $\hat{\theta}\_u$ and $\hat{\gamma}\_m$ indicate the deviations of user u and restaurant m from some intercept paramter $\mu$. The baseline estimates we used in $\hat{\theta}\_{u}$ and $\hat{\gamma}\_m$ were the global averages, as seen and explained further below. It will be good to start with a baseline model to have other models to compare to, since this is the simplest one that we will build. In the end, we found that our baseline model has a training accuracy of 0.393 and a testing accuracy of 0.389.
 
 ### Creating training, validating, and testing sets
 
@@ -288,7 +288,7 @@ print ("The accuracy score of the baseline model on the test set is {}"
     The accuracy score of the baseline model on the train set is 0.3930700821070805
     The accuracy score of the baseline model on the test set is 0.38866638770996476
 
-
+Here we get to our training and testing accuracies of 0.393 and 0.388, respectively. The fact that the two values are similar suggests that there isn't much overfitting happening, if any. These metrics will have provide a grounding point for other models to compare to. Now let's view this data graphically. 
 
 
 ```python
@@ -337,4 +337,4 @@ ax.set_ylim((1,5));
 ![png](BaselineModel_files/BaselineModel_39_0.png)
 
 
-On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values near 3.5, which is where a lot of the global averages are centered. 
+On average, our predictions for both the training and the test set follow the increasing trend of actual ratings but overestimate for lower ratings. On the whole, it seems that our model tends to be pretty conservative by guessing values between 2.5 and 4.5, which is where our global estimates are centered between. 

@@ -16,7 +16,7 @@ Our project revoles around everything Yelp. We were tasked with creating various
 
 ## Refined Problem Statement
 
-Which factors are most influential in determining a given user’s rating for a given business, including factors relating to the business, factors relating to the user, and interactions among these factors? Can we use all these factors to try and predict a rating based on the user and the restaurant? 
+Can we use many of the factors available in the restaurant and user dataset within the Yelp academic dataset to try and predict a rating for a restaurant given a particular user? Will there be a noticeable difference between various models (both parametric and non-parametric)? 
 
 ## Data
 

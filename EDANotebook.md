@@ -134,7 +134,7 @@ ax.set_title('Average Star Rating as a Function of Elite Status');
 ![png](EDANotebook_files/EDANotebook_9_0.png)
 
 
-** Average Star Rating by Elite Status Length:** Plotting the average user rating as a function of how long the user has held elite status seems to show a negative linear relationship. This might indicate that elite users might become more critial over time, with people who have yet to become elits leaving the harshest reviews
+**Average Star Rating by Elite Status Length:** Plotting the average user rating as a function of how long the user has held elite status seems to show a negative linear relationship. This might indicate that elite users might become more critial over time, with people who have yet to become elits leaving the harshest reviews
 
 
 
@@ -158,7 +158,7 @@ ax=sns.barplot(x=ambiences, y=means, palette='Blues_d')
 ![png](EDANotebook_files/EDANotebook_11_0.png)
 
 
-** Ambience's Effect on Star Rating:** It appears that even the restaurant ambience can have an impact on restaurant rating. From a high level intimate restaurants have the highest ratings, with most other ambiences following close behind. Interesting to note was the ambience touristy, which could be because tourist traps usually serve subpar food at inflated prices (based on personal experiences).  
+**Ambience's Effect on Star Rating:** It appears that even the restaurant ambience can have an impact on restaurant rating. From a high level intimate restaurants have the highest ratings, with most other ambiences following close behind. Interesting to note was the ambience touristy, which could be because tourist traps usually serve subpar food at inflated prices (based on personal experiences).  
 
 
 
@@ -182,7 +182,7 @@ ax=sns.barplot(x=dietaryrestrictions, y=means, palette='Greens_d')
 ![png](EDANotebook_files/EDANotebook_13_0.png)
 
 
-** Average Star Rating by  Dietary Restrictions: ** Trying to see if dietary restrictions had any impact on the outcome, we plotted average star ratings by restrictions. It seems that there are slight differences in star rating among restrictions, with restaurants that cater to more restrictive diets like kosher, halal, and vegan faring better than others. 
+**Average Star Rating by  Dietary Restrictions: ** Trying to see if dietary restrictions had any impact on the outcome, we plotted average star ratings by restrictions. It seems that there are slight differences in star rating among restrictions, with restaurants that cater to more restrictive diets like kosher, halal, and vegan faring better than others. 
 
 
 
@@ -212,7 +212,7 @@ ax.set_title('Average Star Rating by Alcohol Availability');
 ![png](EDANotebook_files/EDANotebook_16_0.png)
 
 
-** Alcohol Availability on Star Rating: ** It seems that people love a good drink when they go to a restaurant. Restaurants with no alcohol performed the worst when measured on the star-rating, and restaurants with a great beer and wine selection perform the best
+**Alcohol Availability on Star Rating: ** It seems that people love a good drink when they go to a restaurant. Restaurants with no alcohol performed the worst when measured on the star-rating, and restaurants with a great beer and wine selection perform the best
 
 
 
@@ -428,7 +428,7 @@ ax.set_ylabel('Average Star Rating');
 ![png](EDANotebook_files/EDANotebook_23_0.png)
 
 
-** Drive Thru Presence on Rating:**  Though simple, this bar graph shows a very sizeable difference in restaurant ratings depending on the presence of a drive thru. Restaurants with a drive thru are receiving significantly lower ratings than restaurants that do not. This makes sense intuitively, since many restaurants with drive thru's are fast food joints not known for fine cuisine. 
+**Drive Thru Presence on Rating:**  Though simple, this bar graph shows a very sizeable difference in restaurant ratings depending on the presence of a drive thru. Restaurants with a drive thru are receiving significantly lower ratings than restaurants that do not. This makes sense intuitively, since many restaurants with drive thru's are fast food joints not known for fine cuisine. 
 
 
 
@@ -466,7 +466,7 @@ ax.set_ylabel("Average Star Rating");
 ![png](EDANotebook_files/EDANotebook_25_0.png)
 
 
-** Average Star Rating by Number of Characters in Review:** When plotting against the number of characers left in the review, is appears that the average star rating decreases as the number of characters increases. This would seem to suggest that people who were very upset with their experience with a restaurant leave lengthier reviews to talk about everything that went wrong in their trip. 
+**Average Star Rating by Number of Characters in Review:** When plotting against the number of characers left in the review, is appears that the average star rating decreases as the number of characters increases. This would seem to suggest that people who were very upset with their experience with a restaurant leave lengthier reviews to talk about everything that went wrong in their trip. 
 
 
 
@@ -484,10 +484,6 @@ ax.set_title("Average Rating by Number of Reviews");
 ax.set_xlabel("Restaurant Review Count Percentage");
 ax.set_ylabel("Average Star Rating");
 ```
-
-
-    /Users/PeterAyala/anaconda/lib/python3.6/site-packages/ipykernel_launcher.py:4: DeprecationWarning: object of type <class 'float'> cannot be safely interpreted as an integer.
-      after removing the cwd from sys.path.
 
 
 

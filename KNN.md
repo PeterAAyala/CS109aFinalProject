@@ -51,6 +51,8 @@ print ("The accuracy score of the knn model on the test set is {}"
     The accuracy score of the knn model on the test set is 0.27967372398488577
 
 
+Here we see decided to test out how well K=5 would perform on the set and determine if cross validating might be worth pursuing. Our training set accuracy was 0.349 and our testing accuracy was 0.280. This is a fairly signicant drop, indicating that K=5 likely isn't the best fit for this data. We decided to use cross-validation to determine the optimal number of K neighbors. 
+
 ### Cross-Validation
 
 
@@ -124,7 +126,7 @@ print ("The accuracy score of the knn model on the test set is {}"
     The accuracy score of the knn model on the test set is 0.3240568583938104
 
 
-It is interesting that the highest performing model has k=1--this was true in both cross-validation and when looking at test accuracies separately (code not shown here for test accuracies of other models). This suggests that for a given user-restaurant combination, the single user-restaurant combination already in the dataset that is closest to the desired combination is most reflective of the desired combination (rather than an aggregate of several close combinations). Furthermore, this model has a relatively lower test accuracy than the baseline and the regression models, suggesting that it is not the best model to use for this dataset. Cross-validation did increase the accuracy score from the naive model (which used k = 5 as default).
+It is interesting that the highest performing model has k=1--this was true in both cross-validation and when looking at test accuracies separately (code not shown here for test accuracies of other models). This suggests that for a given user-restaurant combination, the single user-restaurant combination already in the dataset that is closest to the desired combination is most reflective of the desired combination (rather than an aggregate of several close combinations). Furthermore, this model has a relatively lower test accuracy than the baseline and the regression models, suggesting that it is not the best model to use for this dataset. Cross-validation did increase the accuracy score from the naive model (which used k = 5 as default). However, the testing accuracy of 0.324 was lower than our baseline estimate of 0.389 for the test set. 
 
 
 
